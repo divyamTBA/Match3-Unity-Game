@@ -6,20 +6,29 @@ using UnityEngine.UI;
 public class LevelTime : LevelCondition
 {
     private float m_time;
+    private BoardController m_board;
 
     private GameManager m_mngr;
 
-    public override void Setup(float value, Text txt, GameManager mngr)
+    public override void Setup(float value, Text txt, GameManager mngr, BoardController board)
     {
         base.Setup(value, txt, mngr);
 
         m_mngr = mngr;
 
+        m_board = board;
+        m_board.OnMoveEvent += OnMove;
+
         m_time = value;
 
         UpdateText();
     }
+    private void OnMove()
+    {
+        if (m_conditionCompleted) return;
 
+        m_time += 5;
+    }
     private void Update()
     {
         if (m_conditionCompleted) return;
